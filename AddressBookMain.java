@@ -17,7 +17,7 @@ public class AddressBookMain {
 		int choice=0;
 		while(choice != EXIT) {
 			
-			System.out.println("1 : Add Contact\n2 : Edit Contact\n3 : Display Contact\n"+EXIT+" to exit");
+			System.out.println("1 : Add Contact\n2 : Edit Contact\n3 : Delete Contact\n4 : Display Contact\n"+EXIT+" to exit");
 			Scanner r = new Scanner(System.in);
 			Scanner sc = new Scanner(System.in);
 			choice=r.nextInt();
@@ -29,28 +29,50 @@ public class AddressBookMain {
 			case 2:
 				System.out.println("enter the first name");
 				String fname=sc.nextLine();
-					editPerson(fname);
+				System.out.println("enter the last name");
+				String lname=sc.nextLine();
+					editPerson(fname,lname);
 					break;
-			case 3:displayContact();
+			case 3:System.out.println("enter the first name");
+					fname=sc.nextLine();
+					System.out.println("enter the last name");
+					lname=sc.nextLine();
+					deleteperson(fname,lname);
 					break;
+			case 4:displayContact();
+					break;
+			case 10:System.exit(0);
 			
 			}
 			
 		}
 		
 		
-	
-		
-		
-		
-		
-		
-		
-		
-		//System.out.println(contact);
-		
 	}
 	
+	/**
+	 * @param fname
+	 * @param lname
+	 *  Deteles the contact of person
+	 */
+	private static void deleteperson(String fname, String lname) {
+		// TODO Auto-generated method stub
+		Contact person=getPerson(fname,lname);
+		if(person == null)
+		{
+			System.out.println("No contact found of that name");
+		}
+		else {
+			list.remove(person);
+		}
+		
+		
+		
+	}
+
+	/**
+	 *  Display all the contact store in list
+	 */
 	private static void displayContact() {
 		// TODO Auto-generated method stub
 		
@@ -61,11 +83,16 @@ public class AddressBookMain {
 		
 	}
 
-	private static Contact getPerson(String fname)
+	/**
+	 * @param fname  firstname of person
+	 * @param lname  lastname of person
+	 * @return contact of person  firstname=fname and lastname=lname
+	 */
+	private static Contact getPerson(String fname,String lname)
 	{
 		for(Contact item:list)
 		{
-			if(item.firstName.equals(fname)) {
+			if(item.firstName.equals(fname) && item.lastName.equals(lname)) {
 				return item;
 			}
 			
@@ -74,9 +101,15 @@ public class AddressBookMain {
 		
 	}
 
-	private static void editPerson(String fname) {
+	/**
+	 * @param fname firstname of person
+	 * @param lname lastname of person
+	 * 
+	 * Function used to edit contact of person with firstname=fname and lastname=lname
+	 */
+	private static void editPerson(String fname,String lname) {
 		
-		Contact person=getPerson(fname);
+		Contact person=getPerson(fname,lname);
 		if(person == null)
 		{
 			System.out.println("No contact found of that name");
@@ -134,6 +167,9 @@ public class AddressBookMain {
 		
 	}
 
+	/**
+	 * Function to add new contact
+	 */
 	private static void addContact() {
 		Contact contact ;
 		
