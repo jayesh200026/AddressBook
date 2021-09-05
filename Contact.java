@@ -3,23 +3,21 @@ package com.day12;
 import java.util.Objects;
 
 public class Contact {
-	
-	public String firstName,lastName,address,city,state,zip,phoneNumber,eMail;
-	
-	Contact(String firstName,String lastName,String address,String city,String state,String zip,String phoneNumber,String eMail){
-		this.firstName=firstName;
-		this.lastName=lastName;
-		this.address=address;
-		this.city=city;
-		this.state=state;
-		this.phoneNumber=phoneNumber;
-		this.zip=zip;
-		this.eMail=eMail;
-		
-		
+
+	public String firstName, lastName, address, city, state, zip, phoneNumber, eMail;
+
+	Contact(String firstName, String lastName, String address, String city, String state, String zip,
+			String phoneNumber, String eMail) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.phoneNumber = phoneNumber;
+		this.zip = zip;
+		this.eMail = eMail;
+
 	}
-	
-	
 
 	@Override
 	public String toString() {
@@ -43,8 +41,5 @@ public class Contact {
 		Contact other = (Contact) obj;
 		return Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName);
 	}
-	
-	
-	
 
 }
