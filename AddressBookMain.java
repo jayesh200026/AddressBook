@@ -12,12 +12,12 @@ public class AddressBookMain {
 	public static void main(String[] args) {
 		System.out.println("Welcome to AddressBook program");
 		
-		 final int EXIT=10;
+		 final int EXIT=5;
 		
 		int choice=0;
 		while(choice != EXIT) {
 			
-			System.out.println("1 : Add Contact\n2 : Edit Contact\n3 : Delete Contact\n4 : Display Contact\n"+EXIT+" to exit");
+			System.out.println("1 : Add Contact\n2 : Edit Contact\n3 : Delete Contact\n4 : Display Contact\n"+EXIT+" : to exit");
 			Scanner r = new Scanner(System.in);
 			Scanner sc = new Scanner(System.in);
 			choice=r.nextInt();
@@ -41,7 +41,7 @@ public class AddressBookMain {
 					break;
 			case 4:displayContact();
 					break;
-			case 10:System.exit(0);
+			case EXIT:System.exit(0);
 			
 			}
 			
@@ -75,6 +75,10 @@ public class AddressBookMain {
 	 */
 	private static void displayContact() {
 		// TODO Auto-generated method stub
+		if(list.size() == 0) {
+			System.out.println("No data to print");
+			return;
+		}
 		
 		for(int i=0;i<list.size();i++)
 		{
@@ -162,8 +166,7 @@ public class AddressBookMain {
 			}
 		}
 		
-		
-		// TODO Auto-generated method stub
+	
 		
 	}
 
@@ -195,8 +198,6 @@ public class AddressBookMain {
 		contact=new Contact(fname,lname,address,city,state,zip,phone,email);
 		list.add(contact);
 		
-		
-		// TODO Auto-generated method stub
 		
 	}
 
