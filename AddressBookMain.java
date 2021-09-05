@@ -7,7 +7,9 @@ import java.util.Scanner;
 
 
 public class AddressBookMain {
-	static List<Contact> list =new ArrayList<>();
+	
+	
+	static AddressBook addressBook = new AddressBook();
 
 	public static void main(String[] args) {
 		System.out.println("Welcome to AddressBook program");
@@ -15,6 +17,7 @@ public class AddressBookMain {
 		 final int EXIT=5;
 		
 		int choice=0;
+		
 		while(choice != EXIT) {
 			
 			System.out.println("1 : Add Contact\n2 : Edit Contact\n3 : Delete Contact\n4 : Display Contact\n"+EXIT+" : to exit");
@@ -39,7 +42,8 @@ public class AddressBookMain {
 					lname=sc.nextLine();
 					deleteperson(fname,lname);
 					break;
-			case 4:displayContact();
+			case 4:
+				 displayContact();
 					break;
 			case EXIT:System.exit(0);
 			
@@ -56,14 +60,15 @@ public class AddressBookMain {
 	 *  Deteles the contact of person
 	 */
 	private static void deleteperson(String fname, String lname) {
-		// TODO Auto-generated method stub
-		Contact person=getPerson(fname,lname);
+		// addressBook = new AddressBook();
+		
+		Contact person=addressBook.getContact(fname,lname);
 		if(person == null)
 		{
 			System.out.println("No contact found of that name");
 		}
 		else {
-			list.remove(person);
+			addressBook .deleteContact(person);
 		}
 		
 		
@@ -74,36 +79,16 @@ public class AddressBookMain {
 	 *  Display all the contact store in list
 	 */
 	private static void displayContact() {
-		// TODO Auto-generated method stub
-		if(list.size() == 0) {
-			System.out.println("No data to print");
-			return;
-		}
 		
-		for(int i=0;i<list.size();i++)
-		{
-			System.out.println(list.get(i));
-		}
 		
-	}
-
-	/**
-	 * @param fname  firstname of person
-	 * @param lname  lastname of person
-	 * @return contact of person  firstname=fname and lastname=lname
-	 */
-	private static Contact getPerson(String fname,String lname)
-	{
-		for(Contact item:list)
-		{
-			if(item.firstName.equals(fname) && item.lastName.equals(lname)) {
-				return item;
-			}
+		for(Contact c : addressBook.getAllContact()) {
+			System.out.println(c);
 			
 		}
-		return null;
-		
 	}
+	
+		
+	
 
 	/**
 	 * @param fname firstname of person
@@ -113,7 +98,9 @@ public class AddressBookMain {
 	 */
 	private static void editPerson(String fname,String lname) {
 		
-		Contact person=getPerson(fname,lname);
+		//addressBook = new AddressBook();
+		
+		Contact person=addressBook.getContact(fname,lname);
 		if(person == null)
 		{
 			System.out.println("No contact found of that name");
@@ -196,7 +183,7 @@ public class AddressBookMain {
 		System.out.println("enter the email Id ");
 		String email=sc.nextLine();
 		contact=new Contact(fname,lname,address,city,state,zip,phone,email);
-		list.add(contact);
+		addressBook.addContact(contact);
 		
 		
 	}
