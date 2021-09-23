@@ -21,8 +21,8 @@ public class AddressBookMain {
 		while (choice != EXIT) {
 
 			System.out.println(
-					"1 : Add AddressBook\n2 : Add Contact\n3 : Edit Contact\n4 : Delete Contact\n5 : Display Contact\n6 : Search by place\n"
-							+ EXIT + " : to exit");
+					"1 : Add AddressBook\n2 : Add Contact\n3 : Edit Contact\n4 : Delete Contact\n5 : Display Contact\n6 :"
+							+ " Search by place\n7 :Sort by name\n" + EXIT + " : to exit");
 			Scanner r = new Scanner(System.in);
 			Scanner sc = new Scanner(System.in);
 			choice = r.nextInt();
@@ -48,6 +48,9 @@ public class AddressBookMain {
 			case 6:
 				searchPlace();
 				break;
+			case 7:
+				sortByName();
+				break;
 
 			case EXIT:
 				System.exit(0);
@@ -58,15 +61,49 @@ public class AddressBookMain {
 
 	}
 
-	private static void searchPlace() {
-		System.out.println("Enter the city or state name");
-		String place = r.nextLine();
-		int count=0;
+	private static void sortByName() {
 		for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
 			AddressBook obj = entry.getValue();
-			count+=obj.search(place);
+			obj.sort();
 		}
-		System.out.println(count+" contact found based on place of your choice");
+
+	}
+
+	private static void searchPlace() {
+		Scanner m = new Scanner(System.in);
+		System.out.println("Enter the 1:city\n 2 state name");
+		int ch = m.nextInt();
+		if (ch == 1) {
+			Scanner r1 = new Scanner(System.in);
+			System.out.println("Enter city name");
+			String place = r1.nextLine();
+			int count = 0;
+			for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
+				AddressBook obj = entry.getValue();
+				count += obj.searchCity(place);
+			}
+			System.out.println(count + " contact found based on place of your choice");
+
+		} else if (ch == 2) {
+			Scanner r2 = new Scanner(System.in);
+			System.out.println("Enter state name");
+			String place = r2.nextLine();
+			int count = 0;
+			for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
+				AddressBook obj = entry.getValue();
+				count += obj.searchState(place);
+			}
+			System.out.println(count + " contact found based on place of your choice");
+
+		}
+
+//		String place = r.nextLine();
+//		int count=0;
+//		for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
+//			AddressBook obj = entry.getValue();
+//			count+=obj.search(place);
+//		}
+//		System.out.println(count+" contact found based on place of your choice");
 
 	}
 
