@@ -61,10 +61,12 @@ public class AddressBookMain {
 	private static void searchPlace() {
 		System.out.println("Enter the city or state name");
 		String place = r.nextLine();
+		int count=0;
 		for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
 			AddressBook obj = entry.getValue();
-			obj.search(place);
+			count+=obj.search(place);
 		}
+		System.out.println(count+" contact found based on place of your choice");
 
 	}
 

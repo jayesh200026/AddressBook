@@ -197,7 +197,7 @@ public class AddressBook {
 
 	}
 
-	public void search(String place) {
+	public int search(String place) {
 
 		Map<String, Contact> statesMap = new HashMap<>();
 		Map<String, Contact> cityMap = new HashMap<>();
@@ -222,11 +222,14 @@ public class AddressBook {
 			return false;
 		});
 
-		for (Map.Entry<String, Contact> entry : statesMap.entrySet())
-			System.out.println(entry.getValue());
+		for (Map.Entry<String, Contact> entry : statesMap.entrySet()) {
 
+			System.out.println(entry.getValue());
+		}
 		for (Map.Entry<String, Contact> entry : cityMap.entrySet())
 			System.out.println(entry.getValue());
+
+		return statesMap.size() + cityMap.size();
 
 	}
 
