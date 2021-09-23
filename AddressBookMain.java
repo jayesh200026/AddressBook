@@ -21,7 +21,7 @@ public class AddressBookMain {
 		while (choice != EXIT) {
 
 			System.out.println(
-					"1 : Add AddressBook\n2 : Add Contact\n3 : Edit Contact\n4 : Delete Contact\n5 : Display Contact\n"
+					"1 : Add AddressBook\n2 : Add Contact\n3 : Edit Contact\n4 : Delete Contact\n5 : Display Contact\n6 : Search by place\n"
 							+ EXIT + " : to exit");
 			Scanner r = new Scanner(System.in);
 			Scanner sc = new Scanner(System.in);
@@ -45,12 +45,25 @@ public class AddressBookMain {
 			case 5:
 				displayContact();
 				break;
+			case 6:
+				searchPlace();
+				break;
 
 			case EXIT:
 				System.exit(0);
 
 			}
 
+		}
+
+	}
+
+	private static void searchPlace() {
+		System.out.println("Enter the city or state name");
+		String place = r.nextLine();
+		for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
+			AddressBook obj = entry.getValue();
+			obj.search(place);
 		}
 
 	}

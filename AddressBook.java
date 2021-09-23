@@ -1,5 +1,6 @@
 package com.day12;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -94,6 +95,7 @@ public class AddressBook {
 				contacts.put(fname + " " + lname, contact);
 			}
 		}
+
 	}
 
 	public void editPerson() {
@@ -192,6 +194,27 @@ public class AddressBook {
 
 		for (Map.Entry<String, Contact> entry : contacts.entrySet())
 			System.out.println(entry.getValue());
+
+	}
+
+	public void search(String place) {
+		Set<Map.Entry<String, Contact>> entries = contacts.entrySet();
+		Stream<Map.Entry<String, Contact>> entriesStream = entries.stream();
+
+		Set<String> keySet = contacts.keySet();
+		Collection<Contact> values = contacts.values();
+
+		Stream<Contact> valuesStream = values.stream();
+		Stream<String> keysStream = keySet.stream();
+
+		valuesStream.anyMatch((x) -> {
+			if (x.city.equals(place) || x.state.equals(place)) {
+				System.out.println(x);
+				return true;
+			} else {
+				return false;
+			}
+		});
 
 	}
 
