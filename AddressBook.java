@@ -2,34 +2,56 @@ package com.day12;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class AddressBook {
 	String addressBookName;
+
 	static Scanner sc = new Scanner(System.in);
-	
-	AddressBook(String addressBookName){
-		this.addressBookName=addressBookName;
+	Map<String, Contact> contacts;
+
+	AddressBook(String addressBookName) {
+		this.addressBookName = addressBookName;
+		this.contacts = new HashMap<>();
 	}
 
-	/**
-	 * Map to maintain dictionary
-	 */
-	
-	
-	static Map<String,Contact> addressBook = new HashMap<>();
+	@Override
+	public int hashCode() {
+		return Objects.hash(addressBookName);
+	}
 
-	
-	
-	
-	public static void addContact() {
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AddressBook other = (AddressBook) obj;
+		return Objects.equals(addressBookName, other.addressBookName);
+	}
+
+	public String getAddressBookName() {
+		return addressBookName;
+	}
+
+	public void setAddressBookName(String addressBookName) {
+		this.addressBookName = addressBookName;
+	}
+
+	public void addContact() {
 		Contact contact;
 
 		System.out.println("Enter the person details");
-	//	Scanner sc = new Scanner(System.in);
 		System.out.println("enter the first name");
 		String fname = sc.nextLine();
 		System.out.println("enter the last name");
@@ -48,40 +70,48 @@ public class AddressBook {
 		System.out.println("enter the email Id ");
 		String email = sc.nextLine();
 		contact = new Contact(fname, lname, address, city, state, zip, phone, email);
-		//addressBook.addContact(contact);
-		String name=fname + " "+lname;
-		Contact c= addressBook.get(name);
-		if(c != null) {
-			System.out.println("There is already a person with this name ");
+		String name = fname + " " + lname;
+//		Contact c= contacts.get(name);
+//		if(c != null) {
+//			System.out.println("There is already a person with this name ");
+//		}
+//		else {
+//		contacts.put(fname+" "+lname, contact);
+//		}
+//		
+//		
+		Set<String> keyset = contacts.keySet();
+		Supplier<Stream<String>> streamSupplier = () -> keyset.stream();
+		Optional<String> result1 = streamSupplier.get().findAny();
+		if (result1.isEmpty()) {
+			System.out.println("Adding details");
+			contacts.put(fname + " " + lname, contact);
+		} else {
+			if (streamSupplier.get().anyMatch(x -> x.equals(name))) {
+				System.out.println("There is already a person with this name ");
+			} else {
+				System.out.println("Adding details");
+				contacts.put(fname + " " + lname, contact);
+			}
 		}
-		else {
-		addressBook.put(fname+" "+lname, contact);
-		}
-
 	}
-	
-	
-	
-	public static void editPerson() {
-		
-		//Scanner sc = new Scanner(System.in);
-		
+
+	public void editPerson() {
+
 		System.out.println("enter the first name");
 		String fname = sc.nextLine();
 		System.out.println("enter the last name");
 		String lname = sc.nextLine();
-		
-		String name=fname + " "+lname;
-		
-		Contact c= addressBook.get(name);
-		if(c == null) {
+
+		String name = fname + " " + lname;
+
+		Contact c = contacts.get(name);
+		if (c == null) {
 			System.out.println("Person of that name not exits in this book");
-		}
-		else {
+		} else {
 			int choice;
 
 			Scanner r = new Scanner(System.in);
-			//Scanner s = new Scanner(System.in);
 
 			while (true) {
 				System.out.println("What do you wanna edit");
@@ -92,8 +122,8 @@ public class AddressBook {
 				case 1:
 					System.out.println("enter the first name");
 					String firstName = sc.nextLine();
-					//person.firstName = firstName;
-					c.firstName=firstName;
+					// person.firstName = firstName;
+					c.firstName = firstName;
 					break;
 				case 2:
 					System.out.println("enter the last name");
@@ -134,50 +164,34 @@ public class AddressBook {
 					return;
 				}
 			}
-			
-		}
-		
 
-		
-		
+		}
 
 	}
-	
-	
-	
-	
-	public static void deleteperson() {
-		
-		
-		//Scanner sc = new Scanner(System.in);
-		
+
+	public void deleteperson() {
+
 		System.out.println("enter the first name");
 		String fname = sc.nextLine();
 		System.out.println("enter the last name");
 		String lname = sc.nextLine();
-		
-		String name=fname + " "+lname;
-		
-		Contact c= addressBook.get(name);
-		if(c == null) {
+
+		String name = fname + " " + lname;
+
+		Contact c = contacts.get(name);
+		if (c == null) {
 			System.out.println("Person of that name not exits in this book");
-			
+
+		} else {
+			contacts.remove(name);
 		}
-		else {
-			addressBook.remove(name);
-		}
-		
 
 	}
 
-	
 	public void print() {
 
-		for(Contact c:addressBook.values()) {
-			System.out.println(c);
-		}
-		
-		
+		for (Map.Entry<String, Contact> entry : contacts.entrySet())
+			System.out.println(entry.getValue());
 
 	}
 

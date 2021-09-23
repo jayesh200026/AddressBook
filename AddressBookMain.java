@@ -8,10 +8,8 @@ import java.util.Scanner;
 
 public class AddressBookMain {
 
-	
-	
-	static Map<String,AddressBook> addressBook = new HashMap<>();
-	static Scanner r =new Scanner(System.in);
+	static Map<String, AddressBook> addressBook = new HashMap<>();
+	static Scanner r = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		System.out.println("Welcome to AddressBook program");
@@ -22,8 +20,9 @@ public class AddressBookMain {
 
 		while (choice != EXIT) {
 
-			System.out.println("1 : Add AddressBook\n2 : Add Contact\n3 : Edit Contact\n4 : Delete Contact\n5 : Display Contact\n"+
-					EXIT + " : to exit");
+			System.out.println(
+					"1 : Add AddressBook\n2 : Add Contact\n3 : Edit Contact\n4 : Delete Contact\n5 : Display Contact\n"
+							+ EXIT + " : to exit");
 			Scanner r = new Scanner(System.in);
 			Scanner sc = new Scanner(System.in);
 			choice = r.nextInt();
@@ -32,19 +31,21 @@ public class AddressBookMain {
 			case 1:
 				addAddressBook();
 				break;
-			
+
 			case 2:
 				addContact();
 				break;
-			case 3:editContact();
-				
+			case 3:
+				editContact();
+
 				break;
-			case 4:deleteContact();
+			case 4:
+				deleteContact();
 				break;
 			case 5:
 				displayContact();
 				break;
-			
+
 			case EXIT:
 				System.exit(0);
 
@@ -57,89 +58,78 @@ public class AddressBookMain {
 	private static void deleteContact() {
 		System.out.println("Enter the name of address book from which you wanna delete");
 
-		//Scanner r =new Scanner(System.in);
-		String bookName=r.nextLine();
-		AddressBook adBook=addressBook.get(bookName);
-		if(adBook != null) {
-			addressBook.get(bookName).deleteperson();;
+		// Scanner r =new Scanner(System.in);
+		String bookName = r.nextLine();
+		AddressBook adBook = addressBook.get(bookName);
+		if (adBook != null) {
+			addressBook.get(bookName).deleteperson();
+			;
+		} else {
+			System.out.println("Book name not found");
 		}
-		else {
-		System.out.println("Book name not found");
-		}
-		
+
 	}
 
 	private static void editContact() {
 		System.out.println("Enter the name of address book to which you wanna edit");
 
-		//Scanner r =new Scanner(System.in);
-		String bookName=r.nextLine();
-		AddressBook adBook=addressBook.get(bookName);
-		if(adBook != null) {
+		// Scanner r =new Scanner(System.in);
+		String bookName = r.nextLine();
+		AddressBook adBook = addressBook.get(bookName);
+		if (adBook != null) {
 			addressBook.get(bookName).editPerson();
+		} else {
+			System.out.println("Book name not found");
 		}
-		else {
-		System.out.println("Book name not found");
-		}
-		
-		
+
 	}
 
 	private static void addAddressBook() {
 		System.out.println("Enter the name of new address book");
 
-		//Scanner r =new Scanner(System.in);
-		String bookName=r.nextLine();
-		
+		// Scanner r =new Scanner(System.in);
+		String bookName = r.nextLine();
+
 		AddressBook book = addressBook.get(bookName);
-		if(book != null) {
+		if (book != null) {
 			System.out.println("Already has a address book of that name");
+		} else {
+
+			AddressBook adBook = new AddressBook(bookName);
+			addressBook.put(bookName, adBook);
 		}
-		else {
-		
-		AddressBook adBook=new AddressBook(bookName);
-		addressBook.put(bookName, adBook);
-		}
-		
+
 	}
-	
+
 	private static void displayContact() {
 		System.out.println("Enter the name of address book whose contacts you wanna display");
 
-		//Scanner r =new Scanner(System.in);
-		String bookName=r.nextLine();
-		AddressBook adBook=addressBook.get(bookName);
-		
-		//System.out.println(adBook);
-		if(adBook != null) {
+		// Scanner r =new Scanner(System.in);
+		String bookName = r.nextLine();
+		AddressBook adBook = addressBook.get(bookName);
+
+		// System.out.println(adBook);
+		if (adBook != null) {
 			adBook.print();
-		}
-		else {
-		System.out.println("Book name not found");
+		} else {
+			System.out.println("Book name not found");
 		}
 
 	}
+
 	private static void addContact() {
-		
-		
+
 		System.out.println("Enter the name of Address book to which you wanna a add the contact");
-		//Scanner r =new Scanner(System.in);
+		// Scanner r =new Scanner(System.in);
 		String adBook = r.nextLine();
-		AddressBook Book=addressBook.get(adBook);
-		if(Book == null)
-		{
+		AddressBook Book = addressBook.get(adBook);
+		if (Book == null) {
 			System.out.println("No book found");
-			
-		}
-		else
-		{
+
+		} else {
 			addressBook.get(adBook).addContact();
 		}
 
 	}
-	
-	
 
-	
-	
 }
