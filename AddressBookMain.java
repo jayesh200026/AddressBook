@@ -8,15 +8,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * @author jayeshkumar
+ *  Program that maintains multiple addressbook.
+ */
 public class AddressBookMain {
 
 	static Map<String, AddressBook> addressBook = new HashMap<>();
 	static Scanner r = new Scanner(System.in);
 
+	/**
+	 * This method lets the user to make choice.
+	 */
 	public static void main(String[] args) {
 		System.out.println("Welcome to AddressBook program");
 
-		final int EXIT = 10;
+		final int EXIT = 11;
 
 		int choice = 0;
 
@@ -24,7 +31,8 @@ public class AddressBookMain {
 
 			System.out.println(
 					"1 : Add AddressBook\n2 : Add Contact\n3 : Edit Contact\n4 : Delete Contact\n5 : Display Contact\n6 :"
-							+ " Search by place\n7 :Sort by name\n8 :Sort by place\n" + EXIT + " : to exit");
+							+ " Search by place\n7 :Sort by name\n8 :Sort by place\n9 Read from File\n10 Write to File"
+							+ EXIT + " : to exit");
 			Scanner r = new Scanner(System.in);
 			Scanner sc = new Scanner(System.in);
 			choice = r.nextInt();
@@ -56,7 +64,12 @@ public class AddressBookMain {
 			case 8:
 				sortByPlace();
 				break;
-			
+			case 9:
+				readFile();
+				break;
+			case 10:
+				writeToFile();
+				break;
 
 			case EXIT:
 				System.exit(0);
@@ -67,36 +80,87 @@ public class AddressBookMain {
 
 	}
 
-	
+	/**
+	 * Writes the contact in addressbook to file
+	 */
+	private static void writeToFile() {
+		String basePath = "/Users/jayeshkumar/learning_path/BATCH51/git_part/AdressBook/data";
+		Scanner m = new Scanner(System.in);
+		System.out.println("Enter the address book you wanna write");
+		String fileName = m.next();
+		AddressBook Book = addressBook.get(fileName);
+		if (Book == null) {
+			System.out.println("No book found");
+			return;
 
-	
+		}
+		addressBook.get(fileName).writeContact(basePath + "/" + fileName);
 
+	}
+
+	/**
+	 * Reads the contact from file .
+	 */
+	private static void readFile() {
+		String basePath = "/Users/jayeshkumar/learning_path/BATCH51/git_part/AdressBook/data";
+		Scanner m = new Scanner(System.in);
+		System.out.println("Enter the address book you wanna read");
+		String filename = m.next();
+		File file = new File(basePath + "/" + filename);
+		if (!file.exists()) {
+			System.out.println("Address book not found");
+			return;
+		}
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			AddressBook adBook = new AddressBook(filename);
+			addressBook.put(filename, adBook);
+			adBook.addContactFile(br);
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * Sorts the contacts in addressbook based on zipcode or city or state
+	 */
 	private static void sortByPlace() {
 		System.out.println("How do you wanna sort\n1:By Zip code\n2: By City name\n3: By State name");
 		Scanner m = new Scanner(System.in);
 		int ch = m.nextInt();
-		switch(ch) {
-		case 1:for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
-			AddressBook obj = entry.getValue();
-			obj.sortZip();
+		switch (ch) {
+		case 1:
+			for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
+				AddressBook obj = entry.getValue();
+				obj.sortZip();
+			}
+			break;
+		case 2:
+			for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
+				AddressBook obj = entry.getValue();
+				obj.sortCity();
+			}
+			break;
+		case 3:
+			for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
+				AddressBook obj = entry.getValue();
+				obj.sortState();
+			}
+			break;
 		}
-		break;
-		case 2:for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
-			AddressBook obj = entry.getValue();
-			obj.sortCity();
-		}
-		break;
-		case 3:for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
-			AddressBook obj = entry.getValue();
-			obj.sortState();
-		}
-		break;
-		}
-		
+
 	}
 
-	
-
+	/**
+	 * Sorts the contacts of addressbook based on name
+	 */
 	private static void sortByName() {
 		for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
 			AddressBook obj = entry.getValue();
@@ -105,6 +169,9 @@ public class AddressBookMain {
 
 	}
 
+	/**
+	 * Searches for people in addressbook based on state or city name.
+	 */
 	private static void searchPlace() {
 		Scanner m = new Scanner(System.in);
 		System.out.println("Enter the 1:city\n 2 state name");
@@ -133,16 +200,11 @@ public class AddressBookMain {
 
 		}
 
-//		String place = r.nextLine();
-//		int count=0;
-//		for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
-//			AddressBook obj = entry.getValue();
-//			count+=obj.search(place);
-//		}
-//		System.out.println(count+" contact found based on place of your choice");
-
 	}
 
+	/**
+	 * Deletes the contact from the addressbook
+	 */
 	private static void deleteContact() {
 		System.out.println("Enter the name of address book from which you wanna delete");
 
@@ -158,6 +220,9 @@ public class AddressBookMain {
 
 	}
 
+	/**
+	 * Edits the details of person in particular addressbook
+	 */
 	private static void editContact() {
 		System.out.println("Enter the name of address book to which you wanna edit");
 
@@ -172,6 +237,9 @@ public class AddressBookMain {
 
 	}
 
+	/**
+	 * Adds the new addressbook to system
+	 */
 	private static void addAddressBook() {
 		System.out.println("Enter the name of new address book");
 
@@ -189,6 +257,9 @@ public class AddressBookMain {
 
 	}
 
+	/**
+	 * Displays the chosen addressbook
+	 */
 	private static void displayContact() {
 		System.out.println("Enter the name of address book whose contacts you wanna display");
 
@@ -205,6 +276,9 @@ public class AddressBookMain {
 
 	}
 
+	/**
+	 * Adds the contacts into addressbook
+	 */
 	private static void addContact() {
 
 		System.out.println("Enter the name of Address book to which you wanna a add the contact");
