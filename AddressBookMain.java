@@ -1,5 +1,7 @@
 package com.day12;
 
+import java.io.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +24,7 @@ public class AddressBookMain {
 
 			System.out.println(
 					"1 : Add AddressBook\n2 : Add Contact\n3 : Edit Contact\n4 : Delete Contact\n5 : Display Contact\n6 :"
-							+ " Search by place\n7 :Sort by name\n" + EXIT + " : to exit");
+							+ " Search by place\n7 :Sort by name\n8 :Sort by place\n" + EXIT + " : to exit");
 			Scanner r = new Scanner(System.in);
 			Scanner sc = new Scanner(System.in);
 			choice = r.nextInt();
@@ -51,6 +53,10 @@ public class AddressBookMain {
 			case 7:
 				sortByName();
 				break;
+			case 8:
+				sortByPlace();
+				break;
+			
 
 			case EXIT:
 				System.exit(0);
@@ -60,6 +66,36 @@ public class AddressBookMain {
 		}
 
 	}
+
+	
+
+	
+
+	private static void sortByPlace() {
+		System.out.println("How do you wanna sort\n1:By Zip code\n2: By City name\n3: By State name");
+		Scanner m = new Scanner(System.in);
+		int ch = m.nextInt();
+		switch(ch) {
+		case 1:for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
+			AddressBook obj = entry.getValue();
+			obj.sortZip();
+		}
+		break;
+		case 2:for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
+			AddressBook obj = entry.getValue();
+			obj.sortCity();
+		}
+		break;
+		case 3:for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
+			AddressBook obj = entry.getValue();
+			obj.sortState();
+		}
+		break;
+		}
+		
+	}
+
+	
 
 	private static void sortByName() {
 		for (Map.Entry<String, AddressBook> entry : addressBook.entrySet()) {
