@@ -9,8 +9,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * @author jayeshkumar
- *  Program that maintains multiple addressbook.
+ * @author jayeshkumar Program that maintains multiple addressbook.
  */
 public class AddressBookMain {
 
@@ -23,7 +22,7 @@ public class AddressBookMain {
 	public static void main(String[] args) {
 		System.out.println("Welcome to AddressBook program");
 
-		final int EXIT = 11;
+		final int EXIT = 15;
 
 		int choice = 0;
 
@@ -31,8 +30,8 @@ public class AddressBookMain {
 
 			System.out.println(
 					"1 : Add AddressBook\n2 : Add Contact\n3 : Edit Contact\n4 : Delete Contact\n5 : Display Contact\n6 :"
-							+ " Search by place\n7 :Sort by name\n8 :Sort by place\n9 Read from File\n10 Write to File"
-							+ EXIT + " : to exit");
+							+ " Search by place\n7 :Sort by name\n8 :Sort by place\n9 Read from File\n10 Write to File\n"
+							+ "11 Read from csv\n12Write to csv" + EXIT + " : to exit");
 			Scanner r = new Scanner(System.in);
 			Scanner sc = new Scanner(System.in);
 			choice = r.nextInt();
@@ -70,6 +69,12 @@ public class AddressBookMain {
 			case 10:
 				writeToFile();
 				break;
+			case 11:
+				readFromCsv();
+				break;
+			case 12:
+				writeTocsv();
+				break;
 
 			case EXIT:
 				System.exit(0);
@@ -78,6 +83,41 @@ public class AddressBookMain {
 
 		}
 
+	}
+
+	/**
+	 *  Writes the addressbook to csv file
+	 */
+	private static void writeTocsv() {
+		String basePath = "/Users/jayeshkumar/learning_path/BATCH51/git_part/AdressBook/src/com/day12/resourses";
+		Scanner m = new Scanner(System.in);
+		System.out.println("Enter the address book you wanna write");
+		String fileName = m.next();
+		AddressBook Book = addressBook.get(fileName);
+		if (Book == null) {
+			System.out.println("No book found");
+			return;
+
+		}
+		addressBook.get(fileName).writeContactCsv(basePath + "/" + fileName + ".csv");
+	}
+
+	/**
+	 *  Reads the addressbook from csv file
+	 */
+	private static void readFromCsv() {
+		String basePath = "/Users/jayeshkumar/learning_path/BATCH51/git_part/AdressBook/src/com/day12/resourses";
+		Scanner m = new Scanner(System.in);
+		System.out.println("Enter the address book you wanna read");
+		String filename = m.next();
+		File file = new File(basePath + "/" + filename + ".csv");
+		if (!file.exists()) {
+			System.out.println("Address book not found");
+			return;
+		}
+		AddressBook adBook = new AddressBook(filename);
+		addressBook.put(filename, adBook);
+		adBook.addContactCsv(basePath + "/" + filename + ".csv");
 	}
 
 	/**
