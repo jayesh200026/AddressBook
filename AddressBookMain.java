@@ -30,8 +30,9 @@ public class AddressBookMain {
 
 			System.out.println(
 					"1 : Add AddressBook\n2 : Add Contact\n3 : Edit Contact\n4 : Delete Contact\n5 : Display Contact\n6 :"
-							+ " Search by place\n7 :Sort by name\n8 :Sort by place\n9 Read from File\n10 Write to File\n"
-							+ "11 Read from csv\n12Write to csv" + EXIT + " : to exit");
+							+ " Search by place\n7 : Sort by name\n8 : Sort by place\n9 : Read from File\n10 : Write to File\n"
+							+ "11 : Read from csv\n12 : Write to csv\n13 : Read from json\n14 : Write to json\n" + EXIT
+							+ " : to exit");
 			Scanner r = new Scanner(System.in);
 			Scanner sc = new Scanner(System.in);
 			choice = r.nextInt();
@@ -75,6 +76,12 @@ public class AddressBookMain {
 			case 12:
 				writeTocsv();
 				break;
+			case 13:
+				readFromJson();
+				break;
+			case 14:
+				writeToJson();
+				break;
 
 			case EXIT:
 				System.exit(0);
@@ -86,7 +93,44 @@ public class AddressBookMain {
 	}
 
 	/**
-	 *  Writes the addressbook to csv file
+	 * Writes the addressbokk to json file
+	 */
+	private static void writeToJson() {
+		String basePath = "/Users/jayeshkumar/learning_path/BATCH51/git_part/AdressBook/src/com/day12/resourses";
+		Scanner m = new Scanner(System.in);
+		System.out.println("Enter the address book you wanna write");
+		String fileName = m.next();
+		AddressBook Book = addressBook.get(fileName);
+		if (Book == null) {
+			System.out.println("No book found");
+			return;
+
+		}
+		addressBook.get(fileName).writeContactJson(basePath + "/" + fileName + ".json");
+
+	}
+
+	/**
+	 * Reads the addressbook from json file
+	 */
+	private static void readFromJson() {
+		String basePath = "/Users/jayeshkumar/learning_path/BATCH51/git_part/AdressBook/src/com/day12/resourses";
+		Scanner m = new Scanner(System.in);
+		System.out.println("Enter the address book you wanna read");
+		String filename = m.next();
+		File file = new File(basePath + "/" + filename + ".json");
+		if (!file.exists()) {
+			System.out.println("Address book not found");
+			return;
+		}
+		AddressBook adBook = new AddressBook(filename);
+		addressBook.put(filename, adBook);
+		adBook.addContactJson(basePath + "/" + filename + ".json");
+
+	}
+
+	/**
+	 * Writes the addressbook to csv file
 	 */
 	private static void writeTocsv() {
 		String basePath = "/Users/jayeshkumar/learning_path/BATCH51/git_part/AdressBook/src/com/day12/resourses";
@@ -103,7 +147,7 @@ public class AddressBookMain {
 	}
 
 	/**
-	 *  Reads the addressbook from csv file
+	 * Reads the addressbook from csv file
 	 */
 	private static void readFromCsv() {
 		String basePath = "/Users/jayeshkumar/learning_path/BATCH51/git_part/AdressBook/src/com/day12/resourses";

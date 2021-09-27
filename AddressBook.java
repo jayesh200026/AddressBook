@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
@@ -468,6 +469,47 @@ public class AddressBook {
 			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * @param file=json file path Writes the contacts to json file
+	 */
+	public void writeContactJson(String file) {
+		Gson gson = new Gson();
+		try {
+			FileWriter writer = new FileWriter(file);
+			for (Contact c : contacts.values()) {
+				String json = gson.toJson(c);
+
+				writer.write(json);
+				writer.write("\n");
+
+			}
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @param file=json file path Reads the contacts from json file
+	 */
+	public void addContactJson(String file) {
+		Gson gson = new Gson();
+		try {
+			System.out.println("Reading JSON from a file");
+			System.out.println("----------------------------");
+
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			Contact contactObj = gson.fromJson(br, Contact.class);
+			Contact c = contacts.get(contactObj.firstName + contactObj.lastName);
+			if (c == null) {
+				contacts.put(contactObj.firstName + contactObj.lastName, contactObj);
+			}
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
